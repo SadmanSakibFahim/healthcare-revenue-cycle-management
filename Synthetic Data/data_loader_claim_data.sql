@@ -1,0 +1,6 @@
+LOAD DATA INFILE "E:\\Data\\Synthetic Data\\claim_data.csv"
+INTO TABLE claim_data
+FIELDS TERMINATED BY ','
+ENCLOSED BY ''
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
