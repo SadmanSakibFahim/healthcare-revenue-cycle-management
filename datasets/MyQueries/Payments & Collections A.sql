@@ -16,7 +16,7 @@ SELECT SUM(BalanceDue) AS AccountsReceiveable
 FROM cte1;
 
 -- What is the aging of AR (0–30, 31–60, 61–90, 90+ days)?
-/*CREATE TABLE ARAge (SELECT 
+SELECT 
 	CASE
 		WHEN DATEDIFF('2024-12-31', ClaimDate) <= 30 THEN '0-30'
         WHEN DATEDIFF('2024-12-31', ClaimDate) <= 60 THEN '30-60'
@@ -25,7 +25,7 @@ FROM cte1;
 		END AS Age, SUM(ClaimAmount - (PaidAmount + Copay + Coinsurance + Deductible)) AS TotalReceiveable
     FROM hospital_a_claims
     WHERE (ClaimAmount - (PaidAmount + Copay + Coinsurance + Deductible)) > 0
-    GROUP BY Age);*/
+    GROUP BY Age;*/
 
 -- Which payers are the slowest to pay or most often underpay?
 SELECT pa.PatientID, pa.FirstName, pa.LastName, pa.MiddleName, COUNT(1) AS PaymentsDue
