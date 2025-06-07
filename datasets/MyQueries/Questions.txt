@@ -1,0 +1,73 @@
+In a Healthcare Revenue Cycle Management (RCM) system, queries typically aim to answer questions related to billing, collections, reimbursements, claims, and financial performance. Here’s a categorized breakdown of key questions stakeholders often ask, which translate into SQL queries or dashboards:
+
+📊 1. Claims & Billing
+How many claims were submitted in the past month?
+
+What is the total billed amount vs. total reimbursed amount?
+
+Which claims are still unpaid or pending?
+
+What is the average time to receive payment after claim submission?
+
+What percentage of claims were denied, and why?
+
+How many claims had to be resubmitted or appealed?
+
+💰 2. Payments & Collections
+How much was collected in patient payments vs. insurance payments?
+
+What is the total accounts receivable (AR)?
+
+What is the aging of AR (0–30, 31–60, 61–90, 90+ days)?
+
+Which payers are the slowest to pay or most often underpay?
+
+What is the patient responsibility portion vs. insurance?
+
+🏥 3. Patient and Visit-Level Insights
+How many patient encounters resulted in a billable claim?
+
+Which procedures or CPT codes generate the most revenue?
+
+What is the average revenue per visit or per procedure?
+
+Which providers have the highest or lowest reimbursement rates?
+
+📈 4. Financial & Operational KPIs
+What is the net collection rate?
+
+What is the denial rate over time (trend)?
+
+What’s the average claim value by payer or procedure?
+
+What percentage of revenue is being written off?
+
+🛑 5. Compliance & Audits
+Are there duplicate or fraudulent billing patterns?
+
+Which claims were denied due to coding errors or missing documents?
+
+How many appeals were successful?
+
+🧠 Example SQL-like Questions
+sql
+Copy
+Edit
+-- Total reimbursements by insurance payer this quarter
+SELECT payer, SUM(reimbursed_amount)
+FROM claims
+WHERE claim_date BETWEEN '2025-01-01' AND '2025-03-31'
+GROUP BY payer;
+
+-- Aging report
+SELECT
+  CASE
+    WHEN DATEDIFF(CURDATE(), claim_date) <= 30 THEN '0–30 days'
+    WHEN DATEDIFF(CURDATE(), claim_date) <= 60 THEN '31–60 days'
+    WHEN DATEDIFF(CURDATE(), claim_date) <= 90 THEN '61–90 days'
+    ELSE '90+ days'
+  END AS aging_bucket,
+  SUM(balance_due)
+FROM claims
+WHERE status = 'open'
+GROUP BY aging_bucket;
