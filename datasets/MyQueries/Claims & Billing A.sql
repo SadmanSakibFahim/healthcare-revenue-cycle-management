@@ -14,7 +14,10 @@ FROM hospital_a_claims
 WHERE NOT ClaimStatus = 'Paid';
 	
 -- What is the average time to receive payment after claim submission?
-WITH cte1 AS (SELECT ta.TransactionID, ta.EncounterID, ta.ClaimID, ta.PayorID, ca.ClaimDate, ta.PaidDate, DATEDIFF(ta.PaidDate, ca.ClaimDate) AS TimeForPayment
+WITH cte1 AS (
+	SELECT ta.TransactionID, ta.EncounterID, ta.ClaimID, ta.PayorID, ca.ClaimDate, ta.PaidDate, 
+	DATEDIFF(ta.PaidDate, ca.ClaimDate) AS TimeForPayment
+	)
 FROM hospital_a_claims as ca
 JOIN transactions_a as ta
 	ON ca.EncounterID = ta.EncounterID
